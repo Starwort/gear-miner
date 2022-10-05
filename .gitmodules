@@ -1,0 +1,3 @@
+[submodule "ability-miner"]
+	path = ability-miner
+	url = git@github.com:Starwort/ability-miner
