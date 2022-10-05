@@ -1,4 +1,5 @@
 use std::path::Path;
+use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, fs};
 
 fn main() {
@@ -12,5 +13,12 @@ fn main() {
         ",
     )
     .unwrap();
-    println!("cargo:rerun-if-changed=build.rs");
+    println!(
+        "cargo:warning=hello from build at {}",
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map(|a| a.as_secs())
+            .unwrap_or(0)
+    );
+    println!("cargo:rerun-if-changed=data");
 }
