@@ -2,9 +2,8 @@ pub mod app;
 pub mod components;
 pub mod routes;
 
-use wasm_bindgen::prelude::*;
-
 use app::App;
+use wasm_bindgen::prelude::*;
 
 // Use `std::alloc` as the global allocator.
 #[global_allocator]
