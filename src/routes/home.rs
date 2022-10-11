@@ -21,7 +21,7 @@ pub fn home() -> Html {
                         lang={Langs::EUen}
                         all_data={all_data.clone()}
                     />
-                }).collect::<Vec<_>>()}
+                }).collect::<Html>()}
             </div>
         </div>
     }

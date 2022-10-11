@@ -30,3 +30,35 @@ impl Langs {
 }
 impl ImplicitClone for Langs {
 }
+
+pub const APP_STRINGS: [&[&str]; 14] = [&[
+    "Gear Miner",
+    "About",
+    "Current seed: ",
+    "Start collecting data",
+    "Add roll",
+    "Drink",
+    "Ability",
+    "Dismiss",
+    "Delete",
+]; 14];
+#[repr(usize)]
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum Strings {
+    Title,
+    About,
+    CurrentSeed,
+    InitData,
+    AddRoll,
+    Drink,
+    Ability,
+    Dismiss,
+    Delete,
+}
+
+#[macro_export]
+macro_rules! app_string {
+    ($lang:expr, $string:ident) => {
+        crate::lang::APP_STRINGS[$lang as usize][crate::lang::Strings::$string as usize]
+    };
+}

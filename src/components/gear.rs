@@ -14,6 +14,7 @@ use material_yew::{
 };
 use yew::prelude::*;
 
+use crate::app_string;
 use crate::data::{GearData, GearID, GearInfo};
 use crate::lang::{Langs, ABILITY_NAMES, BRAND_NAMES, DRINK_NAMES, GEAR_NAMES};
 
@@ -114,7 +115,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
     } = props;
     let dialogue_link = use_state(<WeakComponentLink<MatDialog> as Default>::default);
     const SEED_COUNT: usize = 15;
-    let mined__seeds = use_mut_ref(|| Vec::with_capacity(10));
+    let mined__seeds = use_mut_ref(|| Vec::with_capacity(SEED_COUNT));
     let mined__drink = use_state::<Option<Ability>, _>(|| None);
     let dialogue_content = match data {
         None => {
@@ -127,7 +128,11 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                     all_data.set(data);
                 })
             }}>
-                <MatButton icon="add" label="Start collecting data" raised={true} />
+                <MatButton
+                    icon="add"
+                    label={app_string!(*lang, InitData)}
+                    raised={true}
+                />
             </span>}
         },
         Some(GearData::Mined(seed)) => {
@@ -161,10 +166,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
             };
             html! {
                 <>
-                <div>{"Current seed: "}{seed}</div>
+                <div>{app_string!(*lang, CurrentSeed)}{seed}</div>
                 <div class="expand-select">
                     <MatSelect
-                        label="Drink"
+                        label={app_string!(*lang, Drink)}
                         index={{mined__drink.map(|i|i as i64 + 1).unwrap_or(0)}}
                         onselected={{
                             let mined__drink = mined__drink.clone();
@@ -185,12 +190,12 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                         </MatListItem>
                         {(0..14).map(|i| html!{
                             <MatListItem
-                                selected={matches!(*mined__drink, Some(i))}
+                                selected={matches!(*mined__drink, Some(_))}
                                 value={i.to_string()}
                             >
                                 <Drink ability={i} {lang} />
                             </MatListItem>
-                        }).collect::<Vec<_>>()}
+                        }).collect::<Html>()}
                     </MatSelect>
                 </div>
                 <MatList onaction={update_seed}>{content}</MatList>
@@ -233,16 +238,13 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                 use ListIndex::*;
                                 let mut data = (*all_data).clone();
                                 if let Some(InProgress(rolls)) = data.get_mut(&id) {
-                                    rolls[i] = (
-                                        rolls[i].0,
-                                        match idx {
-                                            Single(Some(0)) => None,
-                                            Single(Some(idx)) => {
-                                                Some(Ability::from_usize(idx - 1))
-                                            },
-                                            _ => None,
+                                    rolls[i].1 = match idx {
+                                        Single(Some(0)) => None,
+                                        Single(Some(idx)) => {
+                                            Some(Ability::from_usize(idx - 1))
                                         },
-                                    );
+                                        _ => None,
+                                    };
                                     all_data.set(data);
                                 }
                             },
@@ -251,7 +253,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                     html! {
                         <div class="expand-select-pair">
                             <MatSelect
-                                label="Ability"
+                                label={app_string!(*lang, Ability)}
                                 // icon={{html!{
                                 //     <img src={format!(
                                 //         "{IMAGE_URL}skill/{}.webp",
@@ -268,10 +270,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                     >
                                         <AbilityDisplay ability={i} {lang} />
                                     </MatListItem>
-                                }).collect::<Vec<_>>()}
+                                }).collect::<Html>()}
                             </MatSelect>
                             <MatSelect
-                                label="Drink"
+                                label={app_string!(*lang, Drink)}
                                 index={drink.map(|i|i as i64).unwrap_or(0)}
                                 onselected={drink_callback}
                             >
@@ -282,18 +284,18 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                     <MatListItem
                                         selected={matches!(
                                             drink.map(|i| i as usize),
-                                            Some(i),
+                                            Some(_),
                                         )}
                                         value={i.to_string()}
                                     >
                                         <Drink ability={i} {lang} />
                                     </MatListItem>
-                                }).collect::<Vec<_>>()}
+                                }).collect::<Html>()}
                             </MatSelect>
                         </div>
                     }
                 })
-                .collect::<Vec<_>>();
+                .collect::<Html>();
             html! {<div class="height-expand">
                 {components}
                 <span onclick={{
@@ -307,7 +309,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                         }
                     })
                 }}>
-                    <MatButton label="Add roll" raised={true} />
+                    <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
                 </span>
             </div>}
         },
@@ -319,8 +321,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 "gear-display",
                 data.as_ref().map(|data| match data {
                     GearData::Mined(_) => "mined",
-                    GearData::InProgress(data) => "started",
-                    _ => "",
+                    GearData::InProgress(_) => "started",
                 }),
             )}
             onclick={{
@@ -341,7 +342,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 {dialogue_content}
                 <div class="dialogue-enlarger"></div>
                 <MatDialogAction action_type={ActionType::Primary} action="close">
-                    <MatButton label="dismiss" />
+                    <MatButton label={app_string!(*lang, Dismiss)} />
                 </MatDialogAction>
                 {if !data.is_none() {html!{
                     <MatDialogAction action_type={ActionType::Secondary}>
@@ -354,7 +355,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                 all_data.set(data);
                             })
                         }}>
-                            <MatButton label="delete" icon="delete" />
+                            <MatButton
+                                label={app_string!(*lang, Delete)}
+                                icon="delete"
+                            />
                         </span>
                     </MatDialogAction>
                 }} else {html!{}}}
