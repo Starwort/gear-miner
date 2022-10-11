@@ -1,5 +1,7 @@
 pub mod app;
 pub mod components;
+pub mod data;
+pub mod lang;
 pub mod routes;
 
 use app::App;

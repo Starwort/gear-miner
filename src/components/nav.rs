@@ -13,7 +13,7 @@ pub fn nav() -> Html {
         <MatTopAppBarFixed>
             <MatTopAppBarTitle>
                 <div class="app-title">
-                    <AppLink to={AppRoute::Home}>{"Material Yew"}</AppLink>
+                    <AppLink to={AppRoute::Home}>{"Gear Miner"}</AppLink>
                 </div>
             </MatTopAppBarTitle>
             <MatTopAppBarActionItems>
