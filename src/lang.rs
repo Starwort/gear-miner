@@ -41,6 +41,7 @@ pub const APP_STRINGS: [&[&str]; 14] = [&[
     "Ability",
     "Dismiss",
     "Delete",
+    "Find seed",
 ]; 14];
 #[repr(usize)]
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -54,6 +55,7 @@ pub enum Strings {
     Ability,
     Dismiss,
     Delete,
+    MineData,
 }
 
 #[macro_export]

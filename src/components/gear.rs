@@ -349,7 +349,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                         //
                     })
                 }}>
-                    <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
+                    <MatButton label={app_string!(*lang, MineData)} raised={true} />
                 </span>
             </div>}
         },
