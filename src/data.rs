@@ -25,15 +25,15 @@ pub fn load_data() -> HashMap<GearID, GearData> {
             .unwrap_or_else(|| "{}".to_string()),
     );
     let mut data: HashMap<_, _> = data.unwrap_or_default();
-    *data
-        .entry(GearID::Hed_AMB000)
-        .or_insert(GearData::InProgress(vec![])) = GearData::Mined(1234);
-    *data
-        .entry(GearID::Hed_AMB001)
-        .or_insert(GearData::InProgress(vec![])) = GearData::InProgress(vec![
-        (Ability::SpecialSpec_Up, Some(Ability::Action_Up)),
-        (Ability::RespawnTime_Save, None),
-    ]);
+    // *data
+    //     .entry(GearID::Hed_AMB000)
+    //     .or_insert(GearData::InProgress(vec![])) = GearData::Mined(1234);
+    // *data
+    //     .entry(GearID::Hed_AMB001)
+    //     .or_insert(GearData::InProgress(vec![])) = GearData::InProgress(vec![
+    //     (Ability::SpecialSpec_Up, Some(Ability::Action_Up)),
+    //     (Ability::RespawnTime_Save, None),
+    // ]);
     data
 }
 

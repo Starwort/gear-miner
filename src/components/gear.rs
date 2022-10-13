@@ -321,6 +321,36 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 }}>
                     <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
                 </span>
+                <span onclick={{
+                    let all_data = all_data.clone();
+                    let id = info.id;
+                    let brand = info.brand;
+                    let on_change = on_change.clone();
+                    Callback::from(move |_| {
+                        let results = if let Some(GearData::InProgress(data)) =
+                            (*all_data).borrow().get(&id)
+                        {
+                            ability_miner::get_results(
+                                2,
+                                brand,
+                                &data.iter().map(|&(ability, drink)| {
+                                    ability_miner::Slot {ability, drink}
+                                }).collect::<Vec<_>>()
+                            )
+                        } else {
+                            vec![]
+                        };
+                        if results.len() == 1 {
+                            (*all_data).borrow_mut().insert(
+                                id,
+                                GearData::Mined(results[0]),
+                            );
+                        }
+                        //
+                    })
+                }}>
+                    <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
+                </span>
             </div>}
         },
     };
