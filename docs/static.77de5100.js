@@ -123,8 +123,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__wbindgen_number_new = exports.__wbindgen_number_get = exports.__wbindgen_is_undefined = exports.__wbindgen_debug_string = exports.__wbindgen_closure_wrapper6974 = exports.__wbindgen_closure_wrapper12083 = exports.__wbindgen_closure_wrapper11376 = exports.__wbindgen_cb_drop = exports.__wbg_window_f2557cc78490aceb = exports.__wbg_warn_be542501a57387a5 = exports.__wbg_warn_0b90a269a514ae1d = exports.__wbg_values_a47b21e7728c4958 = exports.__wbg_value_ccb32485ee1b3928 = exports.__wbg_value_b2a620d34c663701 = exports.__wbg_value_1ccc36bc03462d71 = exports.__wbg_valueOf_6b6effad03e5c546 = exports.__wbg_target_bf704b7db7ad1387 = exports.__wbg_stack_658279fe44541cf6 = exports.__wbg_source_4018ee1baae2aca9 = exports.__wbg_show_d9a754802a4c4517 = exports.__wbg_setvaluemissing_3424ee62621656a1 = exports.__wbg_setvalue_e5b519cca37d82a7 = exports.__wbg_setvalue_df64bc6794c098f2 = exports.__wbg_setvaliditytransform_988c4024066dcb7e = exports.__wbg_setvalid_93fc2cb0fc080ccf = exports.__wbg_settypemismatch_849c1959c663ec3b = exports.__wbg_settooshort_fcb11543f1855835 = exports.__wbg_settoolong_bf4cbf4e06af1e8a = exports.__wbg_setrangeunderflow_083530a3d76c9240 = exports.__wbg_setrangeoverflow_c9c38dc044253650 = exports.__wbg_setpatternmismatch_01a269a30f4caf79 = exports.__wbg_setnodeValue_4077cafeefd0725e = exports.__wbg_setcustomerror_9e846cdcd76edacb = exports.__wbg_setchecked_f1e1f3e62cdca8e7 = exports.__wbg_setbadinput_ff732764da58c8ad = exports.__wbg_set_bf3f89b92d5a34bf = exports.__wbg_setItem_9c469d634d0c321c = exports.__wbg_setAttribute_d8436c14a59ab1af = exports.__wbg_self_6d479506f72c6a71 = exports.__wbg_selected_55ed9ed5a939e1c1 = exports.__wbg_removed_ec78ac7c35a1ad73 = exports.__wbg_removeEventListener_b10f1a66647f3aa0 = exports.__wbg_removeChild_6751e9ca5d9aaf00 = exports.__wbg_removeAttribute_beaed7727852af78 = exports.__wbg_querySelector_3628dc2c3319e7e0 = exports.__wbg_pushState_38917fb88b4add30 = exports.__wbg_preventDefault_3209279b490de583 = exports.__wbg_pathname_78a642e573bf8169 = exports.__wbg_pathname_4441d4d8fc4aba51 = exports.__wbg_parentElement_0cffb3ceb0f107bd = exports.__wbg_next_aaef7c8aa5e212ac = exports.__wbg_newnoargs_b5b063fc6c2f0376 = exports.__wbg_new_abda76e883ba8a5f = exports.__wbg_new_7d95b89914e4d377 = exports.__wbg_new_0b9bfdd97583284e = exports.__wbg_namespaceURI_e19c7be2c60e5b5c = exports.__wbg_log_de258f66ad9eb784 = exports.__wbg_location_8cc8ccf27e342c0a = exports.__wbg_localStorage_753b6d15a844c3dc = exports.__wbg_lastChild_a2f5ed739809bb31 = exports.__wbg_is_40a66842732708e7 = exports.__wbg_instanceof_Window_acc97ff9f5d2c7b4 = exports.__wbg_instanceof_Set_7548e9530f14bce0 = exports.__wbg_instanceof_Element_33bd126d58f2021b = exports.__wbg_instanceof_CustomEvent_30678b3aca903ea9 = exports.__wbg_insertBefore_9f2d2defb9471006 = exports.__wbg_info_d60a960a4e955dc2 = exports.__wbg_index_ab024aace404298a = exports.__wbg_index_3f1ab014d1a02142 = exports.__wbg_index_30bbf9019e84d0f9 = exports.__wbg_href_90ff36b5040e3b76 = exports.__wbg_history_2a104346a1208269 = exports.__wbg_global_ba75c50d1cf384f4 = exports.__wbg_globalThis_7f206bda628d5286 = exports.__wbg_get_765201544a2b6869 = exports.__wbg_getItem_845e475f85f593e4 = exports.__wbg_error_f851667af71bcfc6 = exports.__wbg_error_ef9a0be47931175f = exports.__wbg_error_00c5d571f754f629 = exports.__wbg_dummyloader_efe09c3b1e8f68d6 = exports.__wbg_dummyloader_89a252453c8b5195 = exports.__wbg_dummyloader_3d3e53cf3007377a = exports.__wbg_dummyloader_264a0f02d7399c3a = exports.__wbg_dummyloader_1b85b5b8595db7a9 = exports.__wbg_dummyloader_1a4492c6bfea70d9 = exports.__wbg_done_1b73b0672e15f234 = exports.__wbg_document_3ead31dbcad65886 = exports.__wbg_diff_24379af6784d4792 = exports.__wbg_detail_90df16fd4821c69c = exports.__wbg_debug_64711eb2fc6980ef = exports.__wbg_createTextNode_300f845fab76642f = exports.__wbg_createElement_976dbb84fe1661b5 = exports.__wbg_createElementNS_1561aca8ee3693c0 = exports.__wbg_cancelBubble_8c0bdf21c08f1717 = exports.__wbg_call_97ae9d8645dc388b = exports.__wbg_body_3cb4b4042b9a632b = exports.__wbg_appendChild_e513ef0e5098dfdd = exports.__wbg_added_a7892c6169161d7c = exports.__wbg_addEventListener_1fc744729ac6dc27 = exports.__wbg_action_92036701f377866a = void 0;
-exports.run = exports.default = exports.__wbindgen_throw = exports.__wbindgen_string_new = exports.__wbindgen_object_drop_ref = exports.__wbindgen_object_clone_ref = void 0;
+exports.__wbindgen_string_new = exports.__wbindgen_object_drop_ref = exports.__wbindgen_object_clone_ref = exports.__wbindgen_number_new = exports.__wbindgen_number_get = exports.__wbindgen_is_undefined = exports.__wbindgen_debug_string = exports.__wbindgen_closure_wrapper9340 = exports.__wbindgen_closure_wrapper8634 = exports.__wbindgen_closure_wrapper5524 = exports.__wbindgen_cb_drop = exports.__wbg_window_f2557cc78490aceb = exports.__wbg_warn_be542501a57387a5 = exports.__wbg_warn_0b90a269a514ae1d = exports.__wbg_values_a47b21e7728c4958 = exports.__wbg_value_ccb32485ee1b3928 = exports.__wbg_value_b2a620d34c663701 = exports.__wbg_value_1ccc36bc03462d71 = exports.__wbg_valueOf_6b6effad03e5c546 = exports.__wbg_target_bf704b7db7ad1387 = exports.__wbg_stack_658279fe44541cf6 = exports.__wbg_source_4018ee1baae2aca9 = exports.__wbg_show_d9a754802a4c4517 = exports.__wbg_setvaluemissing_3424ee62621656a1 = exports.__wbg_setvalue_e5b519cca37d82a7 = exports.__wbg_setvalue_df64bc6794c098f2 = exports.__wbg_setvaliditytransform_988c4024066dcb7e = exports.__wbg_setvalid_93fc2cb0fc080ccf = exports.__wbg_settypemismatch_849c1959c663ec3b = exports.__wbg_settooshort_fcb11543f1855835 = exports.__wbg_settoolong_bf4cbf4e06af1e8a = exports.__wbg_setrangeunderflow_083530a3d76c9240 = exports.__wbg_setrangeoverflow_c9c38dc044253650 = exports.__wbg_setpatternmismatch_01a269a30f4caf79 = exports.__wbg_setnodeValue_4077cafeefd0725e = exports.__wbg_setcustomerror_9e846cdcd76edacb = exports.__wbg_setchecked_f1e1f3e62cdca8e7 = exports.__wbg_setbadinput_ff732764da58c8ad = exports.__wbg_set_bf3f89b92d5a34bf = exports.__wbg_setItem_9c469d634d0c321c = exports.__wbg_setAttribute_d8436c14a59ab1af = exports.__wbg_self_6d479506f72c6a71 = exports.__wbg_selected_55ed9ed5a939e1c1 = exports.__wbg_removed_ec78ac7c35a1ad73 = exports.__wbg_removeEventListener_b10f1a66647f3aa0 = exports.__wbg_removeChild_6751e9ca5d9aaf00 = exports.__wbg_removeAttribute_beaed7727852af78 = exports.__wbg_querySelector_3628dc2c3319e7e0 = exports.__wbg_pushState_38917fb88b4add30 = exports.__wbg_preventDefault_3209279b490de583 = exports.__wbg_pathname_78a642e573bf8169 = exports.__wbg_parentElement_0cffb3ceb0f107bd = exports.__wbg_next_aaef7c8aa5e212ac = exports.__wbg_newnoargs_b5b063fc6c2f0376 = exports.__wbg_new_abda76e883ba8a5f = exports.__wbg_new_7d95b89914e4d377 = exports.__wbg_new_0b9bfdd97583284e = exports.__wbg_namespaceURI_e19c7be2c60e5b5c = exports.__wbg_log_de258f66ad9eb784 = exports.__wbg_localStorage_753b6d15a844c3dc = exports.__wbg_lastChild_a2f5ed739809bb31 = exports.__wbg_is_40a66842732708e7 = exports.__wbg_instanceof_Window_acc97ff9f5d2c7b4 = exports.__wbg_instanceof_Set_7548e9530f14bce0 = exports.__wbg_instanceof_Element_33bd126d58f2021b = exports.__wbg_instanceof_CustomEvent_30678b3aca903ea9 = exports.__wbg_insertBefore_9f2d2defb9471006 = exports.__wbg_info_d60a960a4e955dc2 = exports.__wbg_index_ab024aace404298a = exports.__wbg_index_3f1ab014d1a02142 = exports.__wbg_index_30bbf9019e84d0f9 = exports.__wbg_href_90ff36b5040e3b76 = exports.__wbg_global_ba75c50d1cf384f4 = exports.__wbg_globalThis_7f206bda628d5286 = exports.__wbg_get_765201544a2b6869 = exports.__wbg_getItem_845e475f85f593e4 = exports.__wbg_error_f851667af71bcfc6 = exports.__wbg_error_ef9a0be47931175f = exports.__wbg_error_00c5d571f754f629 = exports.__wbg_dummyloader_efe09c3b1e8f68d6 = exports.__wbg_dummyloader_89a252453c8b5195 = exports.__wbg_dummyloader_3d3e53cf3007377a = exports.__wbg_dummyloader_264a0f02d7399c3a = exports.__wbg_dummyloader_1b85b5b8595db7a9 = exports.__wbg_dummyloader_1a4492c6bfea70d9 = exports.__wbg_done_1b73b0672e15f234 = exports.__wbg_document_3ead31dbcad65886 = exports.__wbg_diff_24379af6784d4792 = exports.__wbg_detail_90df16fd4821c69c = exports.__wbg_debug_64711eb2fc6980ef = exports.__wbg_createTextNode_300f845fab76642f = exports.__wbg_createElement_976dbb84fe1661b5 = exports.__wbg_createElementNS_1561aca8ee3693c0 = exports.__wbg_cancelBubble_8c0bdf21c08f1717 = exports.__wbg_call_97ae9d8645dc388b = exports.__wbg_body_3cb4b4042b9a632b = exports.__wbg_appendChild_e513ef0e5098dfdd = exports.__wbg_added_a7892c6169161d7c = exports.__wbg_addEventListener_1fc744729ac6dc27 = exports.__wbg_action_92036701f377866a = void 0;
+exports.run = exports.default = exports.__wbindgen_throw = void 0;
 
 var _yew_app_bg = _interopRequireDefault(require("./pkg/yew_app_bg.wasm"));
 
@@ -134,10 +134,10 @@ var _default = _yew_app_bg.default;
 exports.default = _default;
 var run = _yew_app_bg.default.run;
 exports.run = run;
-var __wbindgen_string_new = _yew_app_bg.default.__wbindgen_string_new;
-exports.__wbindgen_string_new = __wbindgen_string_new;
 var __wbindgen_object_clone_ref = _yew_app_bg.default.__wbindgen_object_clone_ref;
 exports.__wbindgen_object_clone_ref = __wbindgen_object_clone_ref;
+var __wbindgen_string_new = _yew_app_bg.default.__wbindgen_string_new;
+exports.__wbindgen_string_new = __wbindgen_string_new;
 var __wbindgen_cb_drop = _yew_app_bg.default.__wbindgen_cb_drop;
 exports.__wbindgen_cb_drop = __wbindgen_cb_drop;
 var __wbindgen_number_get = _yew_app_bg.default.__wbindgen_number_get;
@@ -214,10 +214,6 @@ var __wbg_instanceof_Window_acc97ff9f5d2c7b4 = _yew_app_bg.default.__wbg_instanc
 exports.__wbg_instanceof_Window_acc97ff9f5d2c7b4 = __wbg_instanceof_Window_acc97ff9f5d2c7b4;
 var __wbg_document_3ead31dbcad65886 = _yew_app_bg.default.__wbg_document_3ead31dbcad65886;
 exports.__wbg_document_3ead31dbcad65886 = __wbg_document_3ead31dbcad65886;
-var __wbg_location_8cc8ccf27e342c0a = _yew_app_bg.default.__wbg_location_8cc8ccf27e342c0a;
-exports.__wbg_location_8cc8ccf27e342c0a = __wbg_location_8cc8ccf27e342c0a;
-var __wbg_history_2a104346a1208269 = _yew_app_bg.default.__wbg_history_2a104346a1208269;
-exports.__wbg_history_2a104346a1208269 = __wbg_history_2a104346a1208269;
 var __wbg_localStorage_753b6d15a844c3dc = _yew_app_bg.default.__wbg_localStorage_753b6d15a844c3dc;
 exports.__wbg_localStorage_753b6d15a844c3dc = __wbg_localStorage_753b6d15a844c3dc;
 var __wbg_body_3cb4b4042b9a632b = _yew_app_bg.default.__wbg_body_3cb4b4042b9a632b;
@@ -248,8 +244,6 @@ var __wbg_getItem_845e475f85f593e4 = _yew_app_bg.default.__wbg_getItem_845e475f8
 exports.__wbg_getItem_845e475f85f593e4 = __wbg_getItem_845e475f85f593e4;
 var __wbg_setItem_9c469d634d0c321c = _yew_app_bg.default.__wbg_setItem_9c469d634d0c321c;
 exports.__wbg_setItem_9c469d634d0c321c = __wbg_setItem_9c469d634d0c321c;
-var __wbg_pathname_4441d4d8fc4aba51 = _yew_app_bg.default.__wbg_pathname_4441d4d8fc4aba51;
-exports.__wbg_pathname_4441d4d8fc4aba51 = __wbg_pathname_4441d4d8fc4aba51;
 var __wbg_pathname_78a642e573bf8169 = _yew_app_bg.default.__wbg_pathname_78a642e573bf8169;
 exports.__wbg_pathname_78a642e573bf8169 = __wbg_pathname_78a642e573bf8169;
 var __wbg_new_7d95b89914e4d377 = _yew_app_bg.default.__wbg_new_7d95b89914e4d377;
@@ -336,12 +330,12 @@ var __wbindgen_debug_string = _yew_app_bg.default.__wbindgen_debug_string;
 exports.__wbindgen_debug_string = __wbindgen_debug_string;
 var __wbindgen_throw = _yew_app_bg.default.__wbindgen_throw;
 exports.__wbindgen_throw = __wbindgen_throw;
-var __wbindgen_closure_wrapper6974 = _yew_app_bg.default.__wbindgen_closure_wrapper6974;
-exports.__wbindgen_closure_wrapper6974 = __wbindgen_closure_wrapper6974;
-var __wbindgen_closure_wrapper11376 = _yew_app_bg.default.__wbindgen_closure_wrapper11376;
-exports.__wbindgen_closure_wrapper11376 = __wbindgen_closure_wrapper11376;
-var __wbindgen_closure_wrapper12083 = _yew_app_bg.default.__wbindgen_closure_wrapper12083;
-exports.__wbindgen_closure_wrapper12083 = __wbindgen_closure_wrapper12083;
+var __wbindgen_closure_wrapper5524 = _yew_app_bg.default.__wbindgen_closure_wrapper5524;
+exports.__wbindgen_closure_wrapper5524 = __wbindgen_closure_wrapper5524;
+var __wbindgen_closure_wrapper8634 = _yew_app_bg.default.__wbindgen_closure_wrapper8634;
+exports.__wbindgen_closure_wrapper8634 = __wbindgen_closure_wrapper8634;
+var __wbindgen_closure_wrapper9340 = _yew_app_bg.default.__wbindgen_closure_wrapper9340;
+exports.__wbindgen_closure_wrapper9340 = __wbindgen_closure_wrapper9340;
 },{"./pkg/yew_app_bg.wasm":"../pkg/yew_app_bg.wasm"}],"index.ts":[function(require,module,exports) {
 "use strict";
 
@@ -10617,6 +10611,24 @@ var _mwcTopAppBarFixed = require("../../pkg/snippets/material-yew-ff4853da911fc4
 
 var wasm;
 const __exports = {};
+const heap = new Array(32).fill(undefined);
+heap.push(undefined, null, true, false);
+
+function getObject(idx) {
+  return heap[idx];
+}
+
+let heap_next = heap.length;
+
+function addHeapObject(obj) {
+  if (heap_next === heap.length) heap.push(heap.length + 1);
+  const idx = heap_next;
+  heap_next = heap[idx];
+  if (typeof heap_next !== 'number') throw new Error('corrupt heap');
+  heap[idx] = obj;
+  return idx;
+}
+
 const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
 let cachedTextDecoder = new lTextDecoder('utf-8', {
   ignoreBOM: true,
@@ -10635,23 +10647,6 @@ function getUint8Memory0() {
 
 function getStringFromWasm0(ptr, len) {
   return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-const heap = new Array(32).fill(undefined);
-heap.push(undefined, null, true, false);
-let heap_next = heap.length;
-
-function addHeapObject(obj) {
-  if (heap_next === heap.length) heap.push(heap.length + 1);
-  const idx = heap_next;
-  heap_next = heap[idx];
-  if (typeof heap_next !== 'number') throw new Error('corrupt heap');
-  heap[idx] = obj;
-  return idx;
-}
-
-function getObject(idx) {
-  return heap[idx];
 }
 
 function dropObject(idx) {
@@ -11006,13 +11001,13 @@ function handleError(f, args) {
   }
 }
 
-__exports.__wbindgen_string_new = function (arg0, arg1) {
-  const ret = getStringFromWasm0(arg0, arg1);
+__exports.__wbindgen_object_clone_ref = function (arg0) {
+  const ret = getObject(arg0);
   return addHeapObject(ret);
 };
 
-__exports.__wbindgen_object_clone_ref = function (arg0) {
-  const ret = getObject(arg0);
+__exports.__wbindgen_string_new = function (arg0, arg1) {
+  const ret = getStringFromWasm0(arg0, arg1);
   return addHeapObject(ret);
 };
 
@@ -11314,20 +11309,6 @@ __exports.__wbg_document_3ead31dbcad65886 = function () {
   }, arguments);
 };
 
-__exports.__wbg_location_8cc8ccf27e342c0a = function () {
-  return logError(function (arg0) {
-    const ret = getObject(arg0).location;
-    return addHeapObject(ret);
-  }, arguments);
-};
-
-__exports.__wbg_history_2a104346a1208269 = function () {
-  return handleError(function (arg0) {
-    const ret = getObject(arg0).history;
-    return addHeapObject(ret);
-  }, arguments);
-};
-
 __exports.__wbg_localStorage_753b6d15a844c3dc = function () {
   return handleError(function (arg0) {
     const ret = getObject(arg0).localStorage;
@@ -11430,16 +11411,6 @@ __exports.__wbg_getItem_845e475f85f593e4 = function () {
 __exports.__wbg_setItem_9c469d634d0c321c = function () {
   return handleError(function (arg0, arg1, arg2, arg3, arg4) {
     getObject(arg0).setItem(getStringFromWasm0(arg1, arg2), getStringFromWasm0(arg3, arg4));
-  }, arguments);
-};
-
-__exports.__wbg_pathname_4441d4d8fc4aba51 = function () {
-  return handleError(function (arg0, arg1) {
-    const ret = getObject(arg1).pathname;
-    const ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    const len0 = WASM_VECTOR_LEN;
-    getInt32Memory0()[arg0 / 4 + 1] = len0;
-    getInt32Memory0()[arg0 / 4 + 0] = ptr0;
   }, arguments);
 };
 
@@ -11788,23 +11759,23 @@ __exports.__wbindgen_throw = function (arg0, arg1) {
   throw new Error(getStringFromWasm0(arg0, arg1));
 };
 
-__exports.__wbindgen_closure_wrapper6974 = function () {
+__exports.__wbindgen_closure_wrapper5524 = function () {
   return logError(function (arg0, arg1, arg2) {
-    const ret = makeClosure(arg0, arg1, 597, __wbg_adapter_20);
+    const ret = makeClosure(arg0, arg1, 474, __wbg_adapter_20);
     return addHeapObject(ret);
   }, arguments);
 };
 
-__exports.__wbindgen_closure_wrapper11376 = function () {
+__exports.__wbindgen_closure_wrapper8634 = function () {
   return logError(function (arg0, arg1, arg2) {
-    const ret = makeClosure(arg0, arg1, 857, __wbg_adapter_23);
+    const ret = makeClosure(arg0, arg1, 646, __wbg_adapter_23);
     return addHeapObject(ret);
   }, arguments);
 };
 
-__exports.__wbindgen_closure_wrapper12083 = function () {
+__exports.__wbindgen_closure_wrapper9340 = function () {
   return logError(function (arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 919, __wbg_adapter_26);
+    const ret = makeMutClosure(arg0, arg1, 708, __wbg_adapter_26);
     return addHeapObject(ret);
   }, arguments);
 };
