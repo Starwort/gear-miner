@@ -1,5 +1,7 @@
+use std::cell::RefCell;
 use std::cmp::PartialEq;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 use ability_miner::{get_ability, Ability};
 use material_yew::dialog::{ActionType, MatDialogAction};
@@ -100,7 +102,8 @@ pub struct GearDisplayProps {
     pub data: Option<GearData>,
     pub info: GearInfo,
     pub lang: Langs,
-    pub all_data: UseStateHandle<HashMap<GearID, GearData>>,
+    pub all_data: Rc<RefCell<HashMap<GearID, GearData>>>,
+    pub on_change: Callback<()>,
 }
 
 const IMAGE_URL: &str = "https://leanny.github.io/splat3/images/";
@@ -112,6 +115,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
         info,
         lang,
         all_data,
+        on_change,
     } = props;
     let dialogue_link = use_state(<WeakComponentLink<MatDialog> as Default>::default);
     const SEED_COUNT: usize = 15;
@@ -122,10 +126,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
             html! {<span onclick={{
                 let all_data = all_data.clone();
                 let id = info.id;
+                let on_change = on_change.clone();
                 Callback::from(move |_| {
-                    let mut data = (*all_data).clone();
-                    data.insert(id, GearData::InProgress(vec![]));
-                    all_data.set(data);
+                    (*all_data).borrow_mut().insert(id, GearData::InProgress(vec![]));
+                    on_change.emit(());
                 })
             }}>
                 <MatButton
@@ -155,12 +159,12 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 let all_data = all_data.clone();
                 let id = info.id;
                 let mined__seeds = mined__seeds.clone();
+                let on_change = on_change.clone();
                 Callback::from(move |idx: ListIndex| {
                     if let ListIndex::Single(Some(idx)) = idx {
-                        let mut data = (*all_data).clone();
-                        *data.get_mut(&id).unwrap() =
+                        *(*all_data).borrow_mut().get_mut(&id).unwrap() =
                             GearData::Mined(mined__seeds.borrow()[idx]);
-                        all_data.set(data);
+                        on_change.emit(());
                     }
                 })
             };
@@ -210,34 +214,38 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                     let ability_callback = {
                         let all_data = all_data.clone();
                         let id = info.id;
+                        let on_change = on_change.clone();
                         Callback::from(
                             move |SelectedDetail {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
                                 use ListIndex::*;
-                                let mut data = (*all_data).clone();
-                                if let Some(InProgress(rolls)) = data.get_mut(&id) {
+                                if let Some(InProgress(rolls)) =
+                                    (*all_data).borrow_mut().get_mut(&id)
+                                {
                                     rolls[i].0 = match idx {
                                         Single(Some(idx)) => Ability::from_usize(idx),
                                         _ => unreachable!(),
                                     };
-                                    all_data.set(data);
                                 }
+                                on_change.emit(());
                             },
                         )
                     };
                     let drink_callback = {
                         let all_data = all_data.clone();
                         let id = info.id;
+                        let on_change = on_change.clone();
                         Callback::from(
                             move |SelectedDetail {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
                                 use ListIndex::*;
-                                let mut data = (*all_data).clone();
-                                if let Some(InProgress(rolls)) = data.get_mut(&id) {
+                                if let Some(InProgress(rolls)) =
+                                    (*all_data).borrow_mut().get_mut(&id)
+                                {
                                     rolls[i].1 = match idx {
                                         Single(Some(0)) => None,
                                         Single(Some(idx)) => {
@@ -245,8 +253,8 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                         },
                                         _ => None,
                                     };
-                                    all_data.set(data);
                                 }
+                                on_change.emit(());
                             },
                         )
                     };
@@ -301,12 +309,14 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 <span onclick={{
                     let all_data = all_data.clone();
                     let id = info.id;
+                    let on_change = on_change.clone();
                     Callback::from(move |_| {
-                        let mut data = (*all_data).clone();
-                        if let Some(GearData::InProgress(rolls)) = data.get_mut(&id) {
+                        if let Some(GearData::InProgress(rolls)) =
+                            (*all_data).borrow_mut().get_mut(&id)
+                        {
                             rolls.push((Ability::MainInk_Save, None));
-                            all_data.set(data);
                         }
+                        on_change.emit(());
                     })
                 }}>
                     <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
@@ -349,10 +359,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                         <span class="danger" onclick={{
                             let all_data = all_data.clone();
                             let id = info.id;
+                            let on_change = on_change.clone();
                             Callback::from(move |_| {
-                                let mut data = (*all_data).clone();
-                                data.remove(&id);
-                                all_data.set(data);
+                                (*all_data).borrow_mut().remove(&id);
+                                on_change.emit(());
                             })
                         }}>
                             <MatButton
