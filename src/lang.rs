@@ -21,6 +21,7 @@ pub enum Langs {
     USfr,
 }
 impl Langs {
+    #[must_use]
     pub const fn repr(&self) -> &'static str {
         [
             "CNzh", "EUde", "EUen", "EUes", "EUfr", "EUit", "EUnl", "EUru", "JPja",
@@ -61,6 +62,7 @@ pub enum Strings {
 #[macro_export]
 macro_rules! app_string {
     ($lang:expr, $string:ident) => {
-        crate::lang::APP_STRINGS[$lang as usize][crate::lang::Strings::$string as usize]
+        $crate::lang::APP_STRINGS[$lang as usize]
+            [$crate::lang::Strings::$string as usize]
     };
 }

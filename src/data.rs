@@ -1,4 +1,6 @@
+#![allow(clippy::module_name_repetitions)]
 use std::collections::HashMap;
+use std::hash::BuildHasher;
 
 use ability_miner::Ability;
 use serde::{Deserialize, Serialize};
@@ -12,6 +14,7 @@ pub enum GearData {
     InProgress(Vec<(Ability, Option<Ability>)>),
 }
 
+#[must_use]
 pub fn load_data() -> HashMap<GearID, GearData> {
     let window = window().expect("window missing");
     let local_storage = window
@@ -24,20 +27,10 @@ pub fn load_data() -> HashMap<GearID, GearData> {
             .unwrap_or(None)
             .unwrap_or_else(|| "{}".to_string()),
     );
-    let mut data: HashMap<_, _> = data.unwrap_or_default();
-    // *data
-    //     .entry(GearID::Hed_AMB000)
-    //     .or_insert(GearData::InProgress(vec![])) = GearData::Mined(1234);
-    // *data
-    //     .entry(GearID::Hed_AMB001)
-    //     .or_insert(GearData::InProgress(vec![])) = GearData::InProgress(vec![
-    //     (Ability::SpecialSpec_Up, Some(Ability::Action_Up)),
-    //     (Ability::RespawnTime_Save, None),
-    // ]);
-    data
+    data.unwrap_or_default()
 }
 
-pub fn save_data(data: &HashMap<GearID, GearData>) {
+pub fn save_data<S: BuildHasher>(data: &HashMap<GearID, GearData, S>) {
     let window = window().expect("window missing");
     let local_storage = window
         .local_storage()

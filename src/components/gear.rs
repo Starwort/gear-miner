@@ -1,3 +1,4 @@
+#![allow(clippy::module_name_repetitions)]
 use std::cell::RefCell;
 use std::cmp::PartialEq;
 use std::collections::HashMap;
@@ -20,7 +21,7 @@ use crate::app_string;
 use crate::data::{GearData, GearID, GearInfo};
 use crate::lang::{Langs, ABILITY_NAMES, BRAND_NAMES, DRINK_NAMES, GEAR_NAMES};
 
-#[derive(PartialEq, Properties)]
+#[derive(PartialEq, Eq, Properties)]
 pub struct DrinkProps {
     ability: usize,
     lang: Langs,
@@ -46,7 +47,7 @@ pub fn drink(props: &DrinkProps) -> Html {
     }
 }
 
-#[derive(PartialEq, Properties)]
+#[derive(PartialEq, Eq, Properties)]
 pub struct AbilityDisplayProps {
     ability: usize,
     lang: Langs,
@@ -71,7 +72,7 @@ pub fn ability_display(props: &AbilityDisplayProps) -> Html {
         </p>
     }
 }
-#[derive(PartialEq, Properties)]
+#[derive(PartialEq, Eq, Properties)]
 pub struct BrandProps {
     id: usize,
     lang: Langs,
@@ -110,6 +111,7 @@ const IMAGE_URL: &str = "https://leanny.github.io/splat3/images/";
 
 #[function_component(GearDisplay)]
 pub fn gear_display(props: &GearDisplayProps) -> Html {
+    const SEED_COUNT: usize = 15;
     let GearDisplayProps {
         data,
         info,
@@ -118,9 +120,8 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
         on_change,
     } = props;
     let dialogue_link = use_state(<WeakComponentLink<MatDialog> as Default>::default);
-    const SEED_COUNT: usize = 15;
-    let mined__seeds = use_mut_ref(|| Vec::with_capacity(SEED_COUNT));
-    let mined__drink = use_state::<Option<Ability>, _>(|| None);
+    let mined_seeds = use_mut_ref(|| Vec::with_capacity(SEED_COUNT));
+    let mined_drink = use_state::<Option<Ability>, _>(|| None);
     let dialogue_content = match data {
         None => {
             html! {<span onclick={{
@@ -141,29 +142,28 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
         },
         Some(GearData::Mined(seed)) => {
             let content = {
-                (*mined__seeds.borrow_mut()).clear();
+                (*mined_seeds.borrow_mut()).clear();
                 let mut seed = *seed;
                 let mut rv = Vec::with_capacity(SEED_COUNT);
                 for _ in 0..SEED_COUNT {
-                    let ability = get_ability(&mut seed, info.brand, *mined__drink);
-                    (*mined__seeds.borrow_mut()).push(seed);
+                    let ability = get_ability(&mut seed, info.brand, *mined_drink);
+                    (*mined_seeds.borrow_mut()).push(seed);
                     rv.push(html! {
                         <MatListItem>
                             <AbilityDisplay ability={ability as usize} {lang} />
                         </MatListItem>
-                    })
+                    });
                 }
                 rv
             };
             let update_seed = {
                 let all_data = all_data.clone();
                 let id = info.id;
-                let mined__seeds = mined__seeds.clone();
                 let on_change = on_change.clone();
                 Callback::from(move |idx: ListIndex| {
                     if let ListIndex::Single(Some(idx)) = idx {
                         *(*all_data).borrow_mut().get_mut(&id).unwrap() =
-                            GearData::Mined(mined__seeds.borrow()[idx]);
+                            GearData::Mined(mined_seeds.borrow()[idx]);
                         on_change.emit(());
                     }
                 })
@@ -174,14 +174,13 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 <div class="expand-select">
                     <MatSelect
                         label={app_string!(*lang, Drink)}
-                        index={{mined__drink.map(|i|i as i64 + 1).unwrap_or(0)}}
+                        index={{mined_drink.map(|i|i as i64 + 1).unwrap_or(0)}}
                         onselected={{
-                            let mined__drink = mined__drink.clone();
+                            let mined_drink = mined_drink.clone();
                             Callback::from(move |SelectedDetail {index: idx, ..}| {
-                                use ListIndex::*;
-                                mined__drink.set(match idx {
-                                    Single(Some(0)) => None,
-                                    Single(Some(idx)) => Some(
+                                mined_drink.set(match idx {
+                                    ListIndex::Single(Some(0)) => None,
+                                    ListIndex::Single(Some(idx)) => Some(
                                         Ability::from_usize(idx - 1)
                                     ),
                                     _ => None,
@@ -189,12 +188,12 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                             })
                         }}
                     >
-                        <MatListItem selected={mined__drink.is_none()}>
+                        <MatListItem selected={mined_drink.is_none()}>
                             {""}
                         </MatListItem>
                         {(0..14).map(|i| html!{
                             <MatListItem
-                                selected={matches!(*mined__drink, Some(_))}
+                                selected={matches!(*mined_drink, Some(_))}
                                 value={i.to_string()}
                             >
                                 <Drink ability={i} {lang} />
@@ -220,12 +219,13 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
-                                use ListIndex::*;
                                 if let Some(InProgress(rolls)) =
                                     (*all_data).borrow_mut().get_mut(&id)
                                 {
                                     rolls[i].0 = match idx {
-                                        Single(Some(idx)) => Ability::from_usize(idx),
+                                        ListIndex::Single(Some(idx)) => {
+                                            Ability::from_usize(idx)
+                                        },
                                         _ => unreachable!(),
                                     };
                                 }
@@ -242,13 +242,12 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
-                                use ListIndex::*;
                                 if let Some(InProgress(rolls)) =
                                     (*all_data).borrow_mut().get_mut(&id)
                                 {
                                     rolls[i].1 = match idx {
-                                        Single(Some(0)) => None,
-                                        Single(Some(idx)) => {
+                                        ListIndex::Single(Some(0)) => None,
+                                        ListIndex::Single(Some(idx)) => {
                                             Some(Ability::from_usize(idx - 1))
                                         },
                                         _ => None,
@@ -325,7 +324,6 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                     let all_data = all_data.clone();
                     let id = info.id;
                     let brand = info.brand;
-                    let on_change = on_change.clone();
                     Callback::from(move |_| {
                         let results = if let Some(GearData::InProgress(data)) =
                             (*all_data).borrow().get(&id)
@@ -384,7 +382,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 <MatDialogAction action_type={ActionType::Primary} action="close">
                     <MatButton label={app_string!(*lang, Dismiss)} />
                 </MatDialogAction>
-                {if !data.is_none() {html!{
+                {if data.is_none() { html!{} } else { html!{
                     <MatDialogAction action_type={ActionType::Secondary}>
                         <span class="danger" onclick={{
                             let all_data = all_data.clone();
@@ -401,7 +399,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                             />
                         </span>
                     </MatDialogAction>
-                }} else {html!{}}}
+                } }}
             </MatDialog>
         </div>
     }

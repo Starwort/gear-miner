@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yew_hooks::prelude::*;
 
 use crate::components::gear::GearDisplay;
-use crate::data::{load_data, save_data, GearData, GearID, GEAR};
+use crate::data::{load_data, save_data, GEAR};
 use crate::lang::Langs;
 
 fn use_rerender() -> Callback<()> {
