@@ -150,7 +150,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 is_mining.set(true);
                 Some(
                     Client::new()
-                        .post("https://starbright.dyndns.org:8000/api/mine")
+                        .post("https://starbright.dyndns.org/api/mine")
                         .json(&MiningData {
                             brand,
                             rolls,
