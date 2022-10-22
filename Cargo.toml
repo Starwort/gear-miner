@@ -24,10 +24,11 @@ yew-hooks = "0.1.56"
 wasm-bindgen = "0.2.83"
 wasm-logger = "0.2.0"
 material-yew = { version = "0.2.0", features = ["full"] }
-ability-miner = { path = "./ability-miner", features = ["serde", "wasm"] }
+ability-miner = { path = "./ability-miner", features = ["serde"], default-features = false }
 serde_json = "1.0.85"
 web-sys = { version = "0.3.60", features = ["Storage", "Window"] }
 enum-utils = "0.1.2"
+yew-agent = "0.1.0"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.14"
@@ -38,5 +39,5 @@ version = "0.3.60"
 features = ["Document", "Element", "HtmlCollection"]
 
 [build-dependencies]
-ability-miner = { path = "./ability-miner", features = ["serde", "wasm"] }
+ability-miner = { path = "./ability-miner", features = ["serde"], default-features = false }
 serde_json = "1.0.85"

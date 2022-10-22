@@ -11,7 +11,7 @@ include!(concat!(env!("OUT_DIR"), "/gear.rs"));
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]
 pub enum GearData {
     Mined(u32),
-    InProgress(Vec<(Ability, Option<Ability>)>),
+    InProgress(Vec<(Ability, Option<Ability>)>, Option<(Vec<u32>, usize)>),
 }
 
 #[must_use]

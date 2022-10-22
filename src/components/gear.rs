@@ -9,6 +9,7 @@ use material_yew::dialog::{ActionType, MatDialogAction};
 use material_yew::list::{ListIndex, SelectedDetail};
 use material_yew::{
     MatButton,
+    MatCircularProgress,
     MatDialog,
     MatList,
     MatListItem,
@@ -16,7 +17,9 @@ use material_yew::{
     WeakComponentLink,
 };
 use yew::prelude::*;
+use yew_agent::use_bridge;
 
+use crate::agents::miner::{Agent as MinerAgent, AgentInput as MinerInput};
 use crate::app_string;
 use crate::data::{GearData, GearID, GearInfo};
 use crate::lang::{Langs, ABILITY_NAMES, BRAND_NAMES, DRINK_NAMES, GEAR_NAMES};
@@ -122,6 +125,28 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
     let dialogue_link = use_state(<WeakComponentLink<MatDialog> as Default>::default);
     let mined_seeds = use_mut_ref(|| Vec::with_capacity(SEED_COUNT));
     let mined_drink = use_state::<Option<Ability>, _>(|| None);
+    let is_mining = use_state(|| false);
+    let miner_agent = use_bridge::<MinerAgent, _>({
+        let id = info.id;
+        let all_data = all_data.clone();
+        let on_change = on_change.clone();
+        let is_mining = is_mining.clone();
+        move |results| {
+            is_mining.set(false);
+            if results.len() == 1 {
+                (*all_data)
+                    .borrow_mut()
+                    .insert(id, GearData::Mined(results[0]));
+            } else if results.len() < 100 {
+                if let Some(GearData::InProgress(rolls, candidates)) =
+                    (*all_data).borrow_mut().get_mut(&id)
+                {
+                    *candidates = Some((results, rolls.len()));
+                }
+            }
+            on_change.emit(());
+        }
+    });
     let dialogue_content = match data {
         None => {
             html! {<span onclick={{
@@ -129,7 +154,10 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 let id = info.id;
                 let on_change = on_change.clone();
                 Callback::from(move |_| {
-                    (*all_data).borrow_mut().insert(id, GearData::InProgress(vec![]));
+                    (*all_data).borrow_mut().insert(
+                        id,
+                        GearData::InProgress(vec![], None)
+                    );
                     on_change.emit(());
                 })
             }}>
@@ -205,7 +233,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 </>
             }
         },
-        Some(GearData::InProgress(data)) => {
+        Some(GearData::InProgress(data, candidates)) => {
             let components = data
                 .iter()
                 .enumerate()
@@ -219,7 +247,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
-                                if let Some(InProgress(rolls)) =
+                                if let Some(InProgress(rolls, candidates)) =
                                     (*all_data).borrow_mut().get_mut(&id)
                                 {
                                     rolls[i].0 = match idx {
@@ -228,6 +256,11 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                         },
                                         _ => unreachable!(),
                                     };
+                                    if let Some((_, last)) = candidates {
+                                        if *last > i {
+                                            *candidates = None;
+                                        }
+                                    }
                                 }
                                 on_change.emit(());
                             },
@@ -242,7 +275,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                       index: idx, ..
                                   }| {
                                 use GearData::InProgress;
-                                if let Some(InProgress(rolls)) =
+                                if let Some(InProgress(rolls, candidates)) =
                                     (*all_data).borrow_mut().get_mut(&id)
                                 {
                                     rolls[i].1 = match idx {
@@ -252,6 +285,11 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                                         },
                                         _ => None,
                                     };
+                                    if let Some((_, last)) = candidates {
+                                        if *last > i {
+                                            *candidates = None;
+                                        }
+                                    }
                                 }
                                 on_change.emit(());
                             },
@@ -305,50 +343,48 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 .collect::<Html>();
             html! {<div class="height-expand">
                 {components}
-                <span onclick={{
-                    let all_data = all_data.clone();
-                    let id = info.id;
-                    let on_change = on_change.clone();
-                    Callback::from(move |_| {
-                        if let Some(GearData::InProgress(rolls)) =
-                            (*all_data).borrow_mut().get_mut(&id)
-                        {
-                            rolls.push((Ability::MainInk_Save, None));
-                        }
-                        on_change.emit(());
-                    })
-                }}>
-                    <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
-                </span>
-                <span onclick={{
-                    let all_data = all_data.clone();
-                    let id = info.id;
-                    let brand = info.brand;
-                    Callback::from(move |_| {
-                        let results = if let Some(GearData::InProgress(data)) =
-                            (*all_data).borrow().get(&id)
-                        {
-                            ability_miner::get_results(
-                                2,
-                                brand,
-                                &data.iter().map(|&(ability, drink)| {
-                                    ability_miner::Slot {ability, drink}
-                                }).collect::<Vec<_>>()
-                            )
-                        } else {
-                            vec![]
-                        };
-                        if results.len() == 1 {
-                            (*all_data).borrow_mut().insert(
-                                id,
-                                GearData::Mined(results[0]),
-                            );
-                        }
-                        //
-                    })
-                }}>
-                    <MatButton label={app_string!(*lang, MineData)} raised={true} />
-                </span>
+                <div class="gear-mining-buttons">
+                    <span onclick={{
+                        let all_data = all_data.clone();
+                        let id = info.id;
+                        let on_change = on_change.clone();
+                        Callback::from(move |_| {
+                            if let Some(GearData::InProgress(rolls, _)) =
+                                (*all_data).borrow_mut().get_mut(&id)
+                            {
+                                rolls.push((Ability::MainInk_Save, None));
+                            }
+                            on_change.emit(());
+                        })
+                    }}>
+                        <MatButton label={app_string!(*lang, AddRoll)} raised={true} />
+                    </span>
+                    {if *is_mining {
+                        html! {<MatCircularProgress indeterminate={true} />}
+                    } else {
+                        html!{<span onclick={{
+                            let all_data = all_data.clone();
+                            let id = info.id;
+                            let brand = info.brand;
+                            let is_mining = is_mining.clone();
+                            Callback::from(move |_| {
+                                if let Some(GearData::InProgress(data, cands)) =
+                                    (*all_data).borrow().get(&id)
+                                {
+                                    miner_agent.send(
+                                        MinerInput(brand, data.clone(), cands.clone())
+                                    );
+                                    is_mining.set(true);
+                                }
+                            })
+                        }}>
+                            <MatButton
+                                label={app_string!(*lang, MineData)}
+                                raised={true}
+                            />
+                        </span>}
+                    }}
+                </div>
             </div>}
         },
     };
@@ -359,7 +395,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 "gear-display",
                 data.as_ref().map(|data| match data {
                     GearData::Mined(_) => "mined",
-                    GearData::InProgress(_) => "started",
+                    GearData::InProgress(_, _) => "started",
                 }),
             )}
             onclick={{

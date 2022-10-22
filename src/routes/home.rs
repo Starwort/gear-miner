@@ -24,7 +24,7 @@ pub fn home() -> Html {
                     <GearDisplay
                         data={all_data.borrow().get(&info.id).cloned()}
                         info={*info}
-                        lang={Langs::EUen}
+                        lang={*lang}
                         all_data={all_data.clone()}
                         on_change={rerender.clone()}
                     />

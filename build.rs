@@ -17,7 +17,7 @@ macro_rules! get_str {
     }};
 }
 
-fn main() -> Result<()> {
+fn main() {
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("gear.rs");
     let mut out_file = File::create(dest_path).expect("creating file failed");
@@ -251,5 +251,4 @@ fn main() -> Result<()> {
             .unwrap_or(0)
     );
     println!("cargo:rerun-if-changed=data");
-    Ok(())
 }
