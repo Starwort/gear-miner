@@ -4,7 +4,7 @@ use std::io::Write;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use serde_json::{Map, Result, Value};
+use serde_json::{Map, Value};
 
 macro_rules! get_str {
     ($item:ident, $key:expr) => {{
@@ -17,6 +17,7 @@ macro_rules! get_str {
     }};
 }
 
+#[allow(clippy::too_many_lines)]
 fn main() {
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let dest_path = Path::new(&out_dir).join("gear.rs");

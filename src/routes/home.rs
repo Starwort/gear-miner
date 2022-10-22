@@ -1,5 +1,4 @@
 use yew::prelude::*;
-use yew_hooks::prelude::*;
 
 use crate::components::gear::GearDisplay;
 use crate::data::{load_data, save_data, GEAR};

@@ -16,13 +16,22 @@ use material_yew::{
     MatSelect,
     WeakComponentLink,
 };
+use reqwest::Client;
+use serde::{Deserialize, Serialize};
 use yew::prelude::*;
-use yew_agent::use_bridge;
+use yew_hooks::use_async;
 
-use crate::agents::miner::{Agent as MinerAgent, AgentInput as MinerInput};
 use crate::app_string;
 use crate::data::{GearData, GearID, GearInfo};
 use crate::lang::{Langs, ABILITY_NAMES, BRAND_NAMES, DRINK_NAMES, GEAR_NAMES};
+
+#[derive(Serialize, Deserialize)]
+/// Server input type
+struct MiningData {
+    rolls: Vec<(Ability, Option<Ability>)>,
+    candidates: Option<Vec<u32>>,
+    brand: ability_miner::Brand,
+}
 
 #[derive(PartialEq, Eq, Properties)]
 pub struct DrinkProps {
@@ -126,27 +135,97 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
     let mined_seeds = use_mut_ref(|| Vec::with_capacity(SEED_COUNT));
     let mined_drink = use_state::<Option<Ability>, _>(|| None);
     let is_mining = use_state(|| false);
-    let miner_agent = use_bridge::<MinerAgent, _>({
-        let id = info.id;
+    let mine = use_async::<_, _, !>({
+        let brand = info.brand;
         let all_data = all_data.clone();
         let on_change = on_change.clone();
         let is_mining = is_mining.clone();
-        move |results| {
-            is_mining.set(false);
-            if results.len() == 1 {
-                (*all_data)
-                    .borrow_mut()
-                    .insert(id, GearData::Mined(results[0]));
-            } else if results.len() < 100 {
-                if let Some(GearData::InProgress(rolls, candidates)) =
-                    (*all_data).borrow_mut().get_mut(&id)
-                {
-                    *candidates = Some((results, rolls.len()));
+        let id = info.id;
+        async move {
+            let task = if let Some(GearData::InProgress(rolls, candidates)) =
+                (*all_data).borrow().get(&id)
+            {
+                let rolls = rolls.clone();
+                let candidates = candidates.clone();
+                is_mining.set(true);
+                Some(
+                    Client::new()
+                        .post("http://starbright.dyndns.org:8000/api/mine")
+                        .json(&MiningData {
+                            brand,
+                            rolls,
+                            candidates: candidates.map(|(cands, _)| cands),
+                        })
+                        .send(),
+                )
+            } else {
+                None
+            };
+            if let Some(task) = task {
+                log::info!("Starting fetch");
+                let first_result = task.await;
+                log::info!("Result: {first_result:?}");
+                let results: Vec<u32> = match match first_result {
+                    Ok(data) => {
+                        log::info!("Got data {data:?}");
+                        data
+                    },
+                    Err(e) => {
+                        log::error!("{e:?}");
+                        panic!("Error: {e}")
+                    },
                 }
+                .json()
+                .await
+                {
+                    Ok(data) => {
+                        log::info!("Got data {data:?}");
+                        data
+                    },
+                    Err(e) => {
+                        log::error!("{e:?}");
+                        panic!("Error: {e}")
+                    },
+                };
+
+                is_mining.set(false);
+                if results.len() == 1 {
+                    (*all_data)
+                        .borrow_mut()
+                        .insert(id, GearData::Mined(results[0]));
+                } else if results.len() < 100 {
+                    if let Some(GearData::InProgress(rolls, candidates)) =
+                        (*all_data).borrow_mut().get_mut(&id)
+                    {
+                        *candidates = Some((results, rolls.len()));
+                    }
+                }
+                on_change.emit(());
             }
-            on_change.emit(());
+            Ok(())
         }
     });
+    // let miner_agent = use_bridge::<MinerAgent, _>({
+    //     let id = info.id;
+    //     let all_data = all_data.clone();
+    //     let on_change = on_change.clone();
+    //     let is_mining = is_mining.clone();
+    //     move |results| {
+    //         is_mining.set(false);
+    //         if results.len() == 1 {
+    //             (*all_data)
+    //                 .borrow_mut()
+    //                 .insert(id, GearData::Mined(results[0]));
+    //         } else if results.len() < 100 {
+    //             if let Some(GearData::InProgress(rolls, candidates)) =
+    //                 (*all_data).borrow_mut().get_mut(&id)
+    //             {
+    //                 *candidates = Some((results, rolls.len()));
+    //             }
+    //         }
+    //         on_change.emit(());
+    //     }
+    // });
     let dialogue_content = match data {
         None => {
             html! {<span onclick={{
@@ -233,7 +312,7 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                 </>
             }
         },
-        Some(GearData::InProgress(data, candidates)) => {
+        Some(GearData::InProgress(data, _)) => {
             let components = data
                 .iter()
                 .enumerate()
@@ -363,19 +442,8 @@ pub fn gear_display(props: &GearDisplayProps) -> Html {
                         html! {<MatCircularProgress indeterminate={true} />}
                     } else {
                         html!{<span onclick={{
-                            let all_data = all_data.clone();
-                            let id = info.id;
-                            let brand = info.brand;
-                            let is_mining = is_mining.clone();
                             Callback::from(move |_| {
-                                if let Some(GearData::InProgress(data, cands)) =
-                                    (*all_data).borrow().get(&id)
-                                {
-                                    miner_agent.send(
-                                        MinerInput(brand, data.clone(), cands.clone())
-                                    );
-                                    is_mining.set(true);
-                                }
+                                mine.run();
                             })
                         }}>
                             <MatButton

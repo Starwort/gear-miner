@@ -1,3 +1,4 @@
+#![allow(clippy::let_unit_value)]
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -8,7 +9,7 @@ use about::About;
 use home::Home;
 
 /// App routes
-#[derive(Routable, Debug, Clone, PartialEq)]
+#[derive(Routable, Debug, Clone, PartialEq, Eq)]
 pub enum AppRoute {
     #[at("/about")]
     About,
@@ -20,6 +21,7 @@ pub enum AppRoute {
 }
 
 /// Switch app routes
+#[must_use]
 pub fn switch(routes: &AppRoute) -> Html {
     match routes.clone() {
         AppRoute::Home => html! { <Home /> },
