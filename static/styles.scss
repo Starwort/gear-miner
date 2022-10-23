@@ -24,10 +24,10 @@ $GEAR-SIZE: 300px;
 @for $i from 1 to 10 {
     @media (min-width: #{$i * $GEAR-SIZE}) and (max-width: #{($i + 1) * $GEAR-SIZE - 1px}) {
         .gear-rack {
-            display: grid;
+            display: flex;
+            flex-wrap: wrap;
             width: calc($GEAR-SIZE * $i);
             margin: 0 auto;
-            grid-template-columns: repeat($i, 1fr);
         }
     }
 }
@@ -55,9 +55,20 @@ $GEAR-SIZE: 300px;
     text-align: center;
     &.mined {
         background-color: lime;
+        order: -1;
     }
     &.started {
-        background-color: yellow;
+        // background-color: yellow;
+        order: -2;
+    }
+
+    &:not(.mined):not(.started) {
+        border-color: rgba(0, 0, 0, 0.15);
+        & img,
+        & h2,
+        & p {
+            opacity: 50%;
+        }
     }
 
     &.selected {
